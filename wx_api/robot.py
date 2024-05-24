@@ -4,12 +4,14 @@ from threading import Thread
 
 from .job_mgmt import Job
 from wcferry import Wcf, WxMsg
+from .utils import cmd_init
 
 class Robot(Job):
 
     def __init__(self, wcf: Wcf) -> None:
         self.wcf = wcf
         self.wxid = self.wcf.get_self_wxid()
+        cmd_init()
         print("机器人启动成功,wxid =",self.wxid)
 
     def enableRecvMsg(self) -> None:
