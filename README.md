@@ -37,7 +37,7 @@ pip install -r requirements.txt
 
 
 
-# 📝Thinkings
+## 📝Thinkings
 
 [2024/05/24] 
 
@@ -73,9 +73,11 @@ pip install -r requirements.txt
 
 
 
-# 🛠️待办
+## 🛠️待办
 
-- [ ] 使用WeChatFerry项目实现对微信的接受信息和输出信息的功能
+- [x] 结合WeChatFerry项目实现对微信的接受信息和输出信息的功能
+- [ ] 好看的INFO方式（命令行）
+- [ ] 好看的启动界面（命令行）
 - [ ] 对群内信息进行操作，即 允许相应的群组中被@才能回复对应的信息
 - [ ] 对接deepseek大语言模型，实现简单的api调用
 - [ ] 实现大语言模型的简单对话
