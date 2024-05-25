@@ -71,7 +71,10 @@ class Robot(Job):
                 # 职业厨师
                 rsp = self.chat.get_answer_role(q, (msg.roomid if msg.from_group() else msg.sender))
             elif self.chat_type==2:
-                self.sendPictureMsg(r"C:\Users\PIGPIG\Documents\GitHub\WXRobot\0.png",msg.sender)
+                if msg.from_group():
+                    self.sendPictureMsg(r"C:\Users\PIGPIG\Documents\GitHub\WXRobot\0.png",msg.roomid,msg.sender)
+                else:
+                    self.sendPictureMsg(r"C:\Users\PIGPIG\Documents\GitHub\WXRobot\0.png",msg.sender)
                 return True
         if rsp:
             if msg.from_group():
@@ -155,10 +158,18 @@ class Robot(Job):
             self.LOG.info(f"To {receiver}: {ats}\r{msg}")
             self.wcf.send_text(f"{ats}\n\n{msg}", receiver, at_list)
 
-    def sendPictureMsg(self,path_: str,receiver: str):
-        sender_code,sender_name=self.get_info_by_wxid(receiver)
-        self.LOG.info(f"To code:{sender_code} - name:{sender_name} - wxid:{receiver} : Picture Path: {path_}")
-        self.wcf.send_image(path_,receiver)  
+    def sendPictureMsg(self,path_: str,room:str,receiver: str):
+        if room=="":
+            # 个人
+            sender_code,sender_name=self.get_info_by_wxid(receiver)
+            self.LOG.info(f"To code:{sender_code} - name:{sender_name} - wxid:{receiver} : Picture Path: {path_}")
+            self.wcf.send_image(path_,receiver)  
+        else:
+            # 群
+            self.LOG.info(f"To roomid:{receiver} : Picture Path: {path_}")
+            self.wcf.send_image(path_,room) 
+
+
 
     def keepRunningAndBlockProcess(self) -> None:
         """
