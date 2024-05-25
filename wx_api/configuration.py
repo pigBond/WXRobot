@@ -27,3 +27,4 @@ class Config(object):
         yconfig = self._load_config()
         # 使用配置初始化日志系统
         logging.config.dictConfig(yconfig["logging"])
+        self.GROUPS = yconfig["groups"]["enable"] # 允许响应的群

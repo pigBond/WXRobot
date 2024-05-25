@@ -40,3 +40,6 @@ logging:
   root:
     level: INFO
     handlers: [console, info_file_handler, error_file_handler]
+  
+groups:
+  enable: []  # 允许响应的群 roomId，大概长这样：2xxxxxxxxx3@chatroom
