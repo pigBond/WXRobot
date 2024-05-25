@@ -63,19 +63,31 @@ class Robot(Job):
             rsp = "目前并不在线"
         else:  # 接了 ChatGPT，智能回复
             q = re.sub(r"@.*?[\u2005|\s]", "", msg.content).replace(" ", "")
-            # rsp = self.chat.get_answer(q, (msg.roomid if msg.from_group() else msg.sender))
-            if self.chat_type==0:
-                # 对话交流
-                rsp = self.chat.get_answer_communicate(q, (msg.roomid if msg.from_group() else msg.sender))
-            elif self.chat_type==1:
-                # 职业厨师
-                rsp = self.chat.get_answer_role(q, (msg.roomid if msg.from_group() else msg.sender))
-            elif self.chat_type==2:
-                if msg.from_group():
-                    self.sendPictureMsg(r"C:\Users\PIGPIG\Documents\GitHub\WXRobot\0.png",msg.roomid,msg.sender)
-                else:
-                    self.sendPictureMsg(r"C:\Users\PIGPIG\Documents\GitHub\WXRobot\0.png",msg.sender)
-                return True
+
+            content=q
+            # 检查是否包含特定指令格式 "#指令"
+            if content.startswith("#"):
+                command = content[1:].strip()
+                if command == "介绍自己":
+                    if msg.from_group():
+                        self.sendTextMsg("我是机器人", msg.roomid,msg.sender)
+                    else:
+                        self.sendTextMsg("我是机器人",msg.sender)
+                    return True
+            else:
+                # rsp = self.chat.get_answer(q, (msg.roomid if msg.from_group() else msg.sender))
+                if self.chat_type==0:
+                    # 对话交流
+                    rsp = self.chat.get_answer_communicate(q, (msg.roomid if msg.from_group() else msg.sender))
+                elif self.chat_type==1:
+                    # 职业厨师
+                    rsp = self.chat.get_answer_role(q, (msg.roomid if msg.from_group() else msg.sender))
+                elif self.chat_type==2:
+                    if msg.from_group():
+                        self.sendPictureMsg(r"C:\Users\PIGPIG\Documents\GitHub\WXRobot\0.png",msg.roomid,msg.sender)
+                    else:
+                        self.sendPictureMsg(r"C:\Users\PIGPIG\Documents\GitHub\WXRobot\0.png",msg.sender)
+                    return True
         if rsp:
             if msg.from_group():
                 self.sendTextMsg(rsp, msg.roomid, msg.sender)
@@ -168,8 +180,6 @@ class Robot(Job):
             # 群
             self.LOG.info(f"To roomid:{receiver} : Picture Path: {path_}")
             self.wcf.send_image(path_,room) 
-
-
 
     def keepRunningAndBlockProcess(self) -> None:
         """
