@@ -70,6 +70,9 @@ class Robot(Job):
             elif self.chat_type==1:
                 # 职业厨师
                 rsp = self.chat.get_answer_role(q, (msg.roomid if msg.from_group() else msg.sender))
+            elif self.chat_type==2:
+                self.sendPictureMsg(r"C:\Users\PIGPIG\Documents\GitHub\WXRobot\0.png",msg.sender)
+                return True
         if rsp:
             if msg.from_group():
                 self.sendTextMsg(rsp, msg.roomid, msg.sender)
@@ -152,7 +155,11 @@ class Robot(Job):
             self.LOG.info(f"To {receiver}: {ats}\r{msg}")
             self.wcf.send_text(f"{ats}\n\n{msg}", receiver, at_list)
 
-            
+    def sendPictureMsg(self,path_: str,receiver: str):
+        sender_code,sender_name=self.get_info_by_wxid(receiver)
+        self.LOG.info(f"To code:{sender_code} - name:{sender_name} - wxid:{receiver} : Picture Path: {path_}")
+        self.wcf.send_image(path_,receiver)  
+
     def keepRunningAndBlockProcess(self) -> None:
         """
             保持机器人运行，不让进程退出
@@ -160,3 +167,10 @@ class Robot(Job):
         while True:
             self.runPendingJobs()
             time.sleep(1)
+
+    def get_info_by_wxid(self,receiver:str):
+        receiver_info=self.wcf.get_info_by_wxid(receiver)
+        # print(receiver_info)
+        info_name=receiver_info["name"]
+        info_code=receiver_info["code"]
+        return info_code,info_name
