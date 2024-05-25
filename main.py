@@ -7,7 +7,9 @@ def main():
     config = Config()
     wcf = Wcf(debug=True)
 
-    robot = Robot(config,wcf)
+    # 0 对话交流
+    # 1 职业厨师
+    robot = Robot(config,wcf,1)
 
     # 机器人启动发送测试消息
     robot.sendTextMsg("机器人启动成功！", "filehelper")

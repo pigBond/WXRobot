@@ -47,17 +47,35 @@ xxx是xxxx菜，主要由xxx食材制作而成。制作方法是xxx,这部分简
 如果你收到菜名以外的内容，你要回答“我是做菜大师，除了做菜我什么也不会”
 """
 
+prompt_str_2="你需要使用中文回答问题，并且注意你的回答要尽可能避免markdown的语法，例如#或*，注意你的回答不应该用双星号来进行加粗，你只需要输出纯文字，除了正常用语的标点符号或者序号.你回答时应尽可能保证你是作为一个人来回答问题，而不是机器人，你要假装你是人"
 
 class DeepSeek:
     def __init__(self) -> None:
         self.stream_=False
         self.client = OpenAI(api_key=API_KEY, base_url="https://api.deepseek.com")
+        self.conversation_history = [
+            {"role": "system", "content": prompt_str_2},
+        ]
 
     def __repr__(self):
         return 'DeepSeek'
 
-    def get_answer(self, msg: str, sender: str = None) -> str:
+    def get_answer_communicate(self, msg: str, sender: str = None) -> str:
+        self.conversation_history.append({"role": "user", "content": msg})
         # "你需要使用中文回答问题，并且注意你的回答要尽可能避免markdown的语法，例如#或*，注意你的回答不应该用双星号来进行加粗，你只需要输出纯文字，除了正常用语的标点符号或者序号.你回答时应尽可能保证你是作为一个人来回答问题，而不是机器人，你要假装你是人"
+        response = self.client.chat.completions.create(
+            model="deepseek-chat",
+            messages=self.conversation_history,
+            stream=False
+        )
+        assistant_response = response.choices[0].message.content
+    
+        # Append the assistant's response to the conversation history
+        self.conversation_history.append({"role": "assistant", "content": assistant_response})
+        
+        return assistant_response
+    
+    def get_answer_role(self, msg: str, sender: str = None) -> str:
         response = self.client.chat.completions.create(
             model="deepseek-chat",
             messages=[

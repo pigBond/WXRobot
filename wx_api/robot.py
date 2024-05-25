@@ -11,10 +11,11 @@ from .gpt_api.deepseek import DeepSeek
 
 class Robot(Job):
 
-    def __init__(self, config: Config, wcf: Wcf) -> None:
+    def __init__(self, config: Config, wcf: Wcf, type_:int) -> None:
         self.wcf = wcf
         self.wxid = self.wcf.get_self_wxid()
         self.config = config
+        self.chat_type=type_
         log_folder = 'logs/robot_log'
         cmd_init()
         log_folder_init(log_folder)
@@ -62,8 +63,13 @@ class Robot(Job):
             rsp = "目前并不在线"
         else:  # 接了 ChatGPT，智能回复
             q = re.sub(r"@.*?[\u2005|\s]", "", msg.content).replace(" ", "")
-            rsp = self.chat.get_answer(q, (msg.roomid if msg.from_group() else msg.sender))
-
+            # rsp = self.chat.get_answer(q, (msg.roomid if msg.from_group() else msg.sender))
+            if self.chat_type==0:
+                # 对话交流
+                rsp = self.chat.get_answer_communicate(q, (msg.roomid if msg.from_group() else msg.sender))
+            elif self.chat_type==1:
+                # 职业厨师
+                rsp = self.chat.get_answer_role(q, (msg.roomid if msg.from_group() else msg.sender))
         if rsp:
             if msg.from_group():
                 self.sendTextMsg(rsp, msg.roomid, msg.sender)
