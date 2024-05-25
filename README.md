@@ -78,9 +78,9 @@ pip install -r requirements.txt
 ## 🛠️待办
 
 - [x] 结合WeChatFerry项目实现对微信的接受信息和输出信息的功能
-- [ ] 好看的INFO方式（命令行）--使用[rich库](https://github.com/Textualize/rich)
+- [x] 好看的INFO方式（命令行）--使用[rich库](https://github.com/Textualize/rich)
 - [x] 好看的启动界面图（命令行）
-- [ ] logging记录运行过程中的信息 --rich和logging结合使用
+- [x] logging记录运行过程中的信息 --rich和logging结合使用
 - [ ] 对群内信息进行操作，即 允许相应的群组中被@才能回复对应的信息
 - [ ] 对接deepseek大语言模型，实现简单的api调用
 - [ ] 实现大语言模型的简单对话
