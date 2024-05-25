@@ -1,18 +1,30 @@
 import time
 from queue import Empty
 from threading import Thread
-
+import logging
 from .job_mgmt import Job
 from wcferry import Wcf, WxMsg
-from .utils import cmd_init
+from .utils import cmd_init,log_folder_init
+from .configuration import Config
 
 class Robot(Job):
 
-    def __init__(self, wcf: Wcf) -> None:
+    def __init__(self, config: Config, wcf: Wcf) -> None:
         self.wcf = wcf
         self.wxid = self.wcf.get_self_wxid()
+
+        log_folder = 'logs/robot_log'
         cmd_init()
-        print("机器人启动成功,wxid =",self.wxid)
+        log_folder_init(log_folder)
+        self.LOG = logging.getLogger("root")
+        time.sleep(1)
+
+        self.LOG.info(f"机器人启动成功  wxid = {self.wxid}")
+
+        self.LOG.warning("12331")
+
+        # self.LOG.error("错误")
+
 
     def enableRecvMsg(self) -> None:
         self.wcf.enable_recv_msg(self.onMsg)

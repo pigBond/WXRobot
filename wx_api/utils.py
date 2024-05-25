@@ -6,7 +6,7 @@ def cmd_init():
     clear_cmd() # 清空cmd
     terminal_size = get_terminal_size()
     max_width = terminal_size.columns  # 获取最大宽度
-    print("\n" * 1)
+    # print("\n" * 1)
     print("-" * max_width)
     print("\n" * 3)
     # 生成并打印适应大小的字符艺术字
@@ -34,3 +34,9 @@ def generate_sized_art(text, max_width):
         else:
             sized_lines.append(line)
     return '\n'.join(sized_lines)
+
+
+def log_folder_init(log_folder):
+    # 如果文件夹不存在，则创建它
+    if not os.path.exists(log_folder):
+        os.makedirs(log_folder)
