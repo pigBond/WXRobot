@@ -74,6 +74,7 @@ class Robot(Job):
                     else:
                         self.sendTextMsg("我是机器人",msg.sender)
                     return True
+
             else:
                 # rsp = self.chat.get_answer(q, (msg.roomid if msg.from_group() else msg.sender))
                 if self.chat_type==0:
@@ -84,9 +85,9 @@ class Robot(Job):
                     rsp = self.chat.get_answer_role(q, (msg.roomid if msg.from_group() else msg.sender))
                 elif self.chat_type==2:
                     if msg.from_group():
-                        self.sendPictureMsg(r"C:\Users\PIGPIG\Documents\GitHub\WXRobot\0.png",msg.roomid,msg.sender)
+                        self.sendPictureMsg(r"D:\Github-Workspaces\WXRobot\0.png",msg.roomid,msg.sender)
                     else:
-                        self.sendPictureMsg(r"C:\Users\PIGPIG\Documents\GitHub\WXRobot\0.png",msg.sender)
+                        self.sendPictureMsg(r"D:\Github-Workspaces\WXRobot\0.png","",msg.sender)
                     return True
         if rsp:
             if msg.from_group():
